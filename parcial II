@@ -1,0 +1,80 @@
+import java.util.Hasmap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class ExamenColaMapa {
+    static class ColaCircularEnteros {
+        private int [] datos;
+        private int cabeza;
+        private int cola;
+        private int tam;
+    
+        public ColaCircularEnteros( int capacidad) {
+            datos = new int [capacidad];
+            cabeza = 0;
+            cola = 0;
+            tam = 0;
+        }
+
+        public boolean estaVacia() { return tam == 0; }
+        public boolean estaLlena() { return tam == datos.length; }
+
+        public void encolar(int x) {
+            if (estaLlena()) throw new IllegalStateExeption("Cola llena");
+            datos[cola] = x;
+            cola = (cola + 1) % datos.length; 
+            tam++;
+        }
+
+        public int desencolar(){
+            if (estaVacia()) throw new IllegalStateExeption("cola vacia");
+            int v - datos[cabeza];
+            cabeza = (cabeza + 1) % datos.length;
+            tam --;
+            return v; 
+        }
+    }
+
+    //Calcula el balance de parentesis encolado +1 y -1
+    public static int balanceConCola(String s) {
+    //TODO: usar ColaCircularEnteros para encolar y luego sumar
+    ColaCircularEnteros = cola new ColaCircularEnteros(s.length());
+    //Encola +1 por cada "(" y -1 por cada ")"
+        for(int i = 0; i < s.length; i++);{
+        char c = s.charAt(i);
+        if(c =="(");{
+            cola.encolar(1);
+        }else if(c ==")"){
+            cola.encolar(-1)
+        }
+        }
+        
+        //Sumamos los valores mientras la cola tenga elementos
+        int total=0;
+        while(cola.estaVacia()==false){
+        total=total + cola.desencolar();    
+        }
+        return total;// retorna 0 si los parentesis estan balanceados 
+    }    
+        
+    }
+
+    //Registra intentos por nombre en un mapa
+    public static int registrarIntento(Map<String,Integer> intentos, String nombre) {
+        //TODO: incrementar si existe o iniciar en 1 si no existe
+        if(intentos.c){
+
+        }
+        return=0;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String cadena = sc.nextLine(); 
+        System.out.println("Balance cola: " + balanceConCola(cadena));
+
+        Map<String,Integer> intentos = new Hasmap<String,Integer>();
+        System.out.println("Intentos (Ana): " + registrarIntento( intentos, "Ana"));
+        sc.close();
+    }
+}
