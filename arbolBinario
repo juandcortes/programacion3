@@ -1,0 +1,102 @@
+'Clase Nodo: Representa un nodo del árbol
+Public Class Nodo
+    Public Valor As Integer
+    Public Izquierdo As Nodo
+    Public Derecho As Nodo
+
+    Public Sub New(valor As Integer)
+        Me.Valor = valor
+        Izquierdo = Nothing
+        Derecho = Nothing
+    End Sub
+End Class
+' Clase ArbolBinario: Contiene métodos
+' para insertar y recorrer el árbol
+Public Class ArbolBinario
+    Private Raiz As Nodo
+    ' Inserta un nuevo valor en el árbol
+    Public Sub Insertar(valor As Integer)
+        Raiz = InsertarRecursivo(Raiz, valor)
+    End Sub
+
+    Private Function InsertarRecursivo(raizActual As Nodo, valor As Integer) As Nodo
+        If raizActual Is Nothing Then
+            Return New Nodo(valor)
+        End If
+
+        If valor < raizActual.Valor Then
+            raizActual.Izquierdo = InsertarRecursivo(raizActual.Izquierdo, valor)
+        ElseIf valor > raizActual.Valor Then
+            raizActual.Derecho = InsertarRecursivo(raizActual.Derecho, valor)
+        End If
+
+        Return raizActual
+    End Function
+
+    ' Recorrido Inorden (Izquierda - Raíz - Derecha)
+    Public Sub RecorridoInorden()
+        Console.Write("Inorden: ")
+        RecorrerInorden(Raiz)
+        Console.WriteLine()
+    End Sub
+
+    Private Sub RecorrerInorden(nodo As Nodo)
+        If nodo IsNot Nothing Then
+            RecorrerInorden(nodo.Izquierdo)
+            Console.Write(nodo.Valor & " ")
+            RecorrerInorden(nodo.Derecho)
+        End If
+    End Sub
+
+    ' Recorrido Preorden (Raíz - Izquierda - Derecha)
+    Public Sub RecorridoPreorden()
+        Console.Write("Preorden: ")
+        RecorrerPreorden(Raiz)
+        Console.WriteLine()
+    End Sub
+
+    Private Sub RecorrerPreorden(nodo As Nodo)
+        If nodo IsNot Nothing Then
+            Console.Write(nodo.Valor & " ")
+            RecorrerPreorden(nodo.Izquierdo)
+            RecorrerPreorden(nodo.Derecho)
+        End If
+    End Sub
+
+    ' Recorrido Postorden (Izquierda - Derecha - Raíz)
+    Public Sub RecorridoPostorden()
+        Console.Write("Postorden: ")
+        RecorrerPostorden(Raiz)
+        Console.WriteLine()
+    End Sub
+
+    Private Sub RecorrerPostorden(nodo As Nodo)
+        If nodo IsNot Nothing Then
+            RecorrerPostorden(nodo.Izquierdo)
+            RecorrerPostorden(nodo.Derecho)
+            Console.Write(nodo.Valor & " ")
+        End If
+    End Sub
+End Class
+' Programa principal
+Module Program
+    Sub Main()
+        Dim arbol As New ArbolBinario()
+
+        ' Insertar algunos valores
+        arbol.Insertar(50)
+        arbol.Insertar(30)
+        arbol.Insertar(70)
+        arbol.Insertar(20)
+        arbol.Insertar(40)
+        arbol.Insertar(60)
+        arbol.Insertar(80)
+
+        ' Mostrar recorridos
+        arbol.RecorridoInorden()
+        arbol.RecorridoPreorden()
+        arbol.RecorridoPostorden()
+
+        Console.ReadLine()
+    End Sub
+End Module
