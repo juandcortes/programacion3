@@ -1,0 +1,126 @@
+import java.util.*;
+
+//--------------------------------------
+// Clase Nodo: representa un nodo del árbol binario
+//--------------------------------------
+class Nodo {
+    int valor;
+    Nodo izquierdo, derecho;
+
+    public Nodo(int valor) {
+        this.valor = valor;
+        izquierdo = derecho = null;
+    }
+}
+
+//--------------------------------------
+// Clase ArbolBinario: inserción y recorridos
+//--------------------------------------
+class ArbolBinario {
+    private Nodo raiz;
+
+    // Insertar valor
+    public void insertar(int valor) {
+        raiz = insertarRecursivo(raiz, valor);
+    }
+
+    private Nodo insertarRecursivo(Nodo actual, int valor) {
+        if (actual == null)
+            return new Nodo(valor);
+
+        if (valor < actual.valor)
+            actual.izquierdo = insertarRecursivo(actual.izquierdo, valor);
+        else if (valor > actual.valor)
+            actual.derecho = insertarRecursivo(actual.derecho, valor);
+
+        return actual;
+    }
+
+    // Recorrido Inorden
+    public void recorridoInorden() {
+        System.out.print("Inorden: ");
+        recorrerInorden(raiz);
+        System.out.println();
+    }
+
+    private void recorrerInorden(Nodo nodo) {
+        if (nodo != null) {
+            recorrerInorden(nodo.izquierdo);
+            System.out.print(nodo.valor + " ");
+            recorrerInorden(nodo.derecho);
+        }
+    }
+
+    // Obtener valores del árbol (inorden)
+    public List<Integer> obtenerValores() {
+        List<Integer> valores = new ArrayList<>();
+        obtenerValoresRecursivo(raiz, valores);
+        return valores;
+    }
+
+    private void obtenerValoresRecursivo(Nodo nodo, List<Integer> lista) {
+        if (nodo != null) {
+            obtenerValoresRecursivo(nodo.izquierdo, lista);
+            lista.add(nodo.valor);
+            obtenerValoresRecursivo(nodo.derecho, lista);
+        }
+    }
+}
+
+//--------------------------------------
+// Clase Burbuja: método de ordenamiento
+//--------------------------------------
+class Burbuja {
+    public static void ordenar(List<Integer> lista) {
+        int n = lista.size();
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (lista.get(j) > lista.get(j + 1)) {
+                    // Intercambiar
+                    int temp = lista.get(j);
+                    lista.set(j, lista.get(j + 1));
+                    lista.set(j + 1, temp);
+                }
+            }
+        }
+    }
+}
+
+//--------------------------------------
+// Clase Grafo: implementación de Dijkstra
+//--------------------------------------
+class Grafo {
+    private int vertices;
+    private int[][] matriz;
+
+    public Grafo(int v) {
+        vertices = v;
+        matriz = new int[v][v];
+    }
+
+    // Agregar arista con peso
+    public void agregarArista(int origen, int destino, int peso) {
+        matriz[origen][destino] = peso;
+        matriz[destino][origen] = peso; // Grafo no dirigido
+    }
+
+    // Algoritmo de Dijkstra
+    public void dijkstra(int inicio) {
+        int[] distancia = new int[vertices];
+        boolean[] visitado = new boolean[vertices];
+
+        Arrays.fill(distancia, Integer.MAX_VALUE);
+        distancia[inicio] = 0;
+
+        for (int count = 0; count < vertices - 1; count++) {
+            int u = minDistancia(distancia, visitado);
+            visitado[u] = true;
+
+            for (int v = 0; v < vertices; v++) {
+                if (!visitado[v] && matriz[u][v] != 0 &&
+                        distancia[u] != Integer.MAX_VALUE &&
+                        distancia[u] + matriz[u][v] < distancia[v]) {
+                    distancia[v] = distancia[u] + matriz[u][v];
+                }
+            }
+        }
